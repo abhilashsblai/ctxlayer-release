@@ -1,61 +1,80 @@
-# CTX Layer
+# CTX Layer - Context Engineering, Memory, and Governance for AI Coding Agents
 
 Copyright (c) 2026 Abhilash Pillai. All rights reserved.
 
 Developed by Abhilash Pillai.
 
-CTX Layer is a local context, memory, governance, and impact layer for coding
-agents. It helps AI coding tools work with better repository context, follow a
-repeatable task workflow, check whether their final diff stayed in scope, and
-remember useful outcomes for future work.
+CTX Layer is a local-first developer tool for AI coding agents such as Codex.
+It adds context engineering, repository memory, structured planning,
+governance checks, audit trails, MCP integration, and impact analysis to the
+AI-assisted software development workflow.
 
-It is designed for teams that use coding models such as Codex and want more
-reliable edits, clearer audit trails, better test selection, and fewer wrong-file
-changes.
+Use CTX Layer when you want coding agents to understand the right files before
+they edit, stay inside an approved task plan, choose better tests, and leave a
+durable explanation of what changed and why.
 
-## What CTX Layer Does
+![CTX Layer social preview](docs/assets/ctxlayer-social-preview.png)
 
-CTX Layer sits beside your repository and gives coding agents a project-aware
-workflow:
+## What CTX Layer Is
 
-- Builds deterministic context packs for each task.
-- Creates structured plans before code changes.
-- Validates file changes against the active plan.
-- Checks final diffs against the served context.
-- Produces impact reports for changed files.
-- Records outcomes and useful summaries as local project memory.
-- Generates agent instructions and MCP configuration for supported tools.
-- Keeps the control plane local by default.
+CTX Layer is a local context and memory layer for AI coding tools. It sits
+beside a Git repository and gives agents a repeatable workflow:
 
-The result is a tighter coding loop: the model starts with better context, edits
-with clearer scope, and finishes with checks that make the work easier to trust.
+- Build deterministic context packs for each task.
+- Create structured task plans before code changes.
+- Validate changed files against the active plan.
+- Check final diffs against the context served to the agent.
+- Produce impact reports for changed files.
+- Record useful outcomes as local project memory.
+- Generate `AGENTS.md`, hooks, policies, and MCP configuration for supported
+  tools.
 
-## Why Use It
+The goal is simple: make agentic coding safer, more reviewable, and easier to
+repeat across real repositories.
+
+## Search-Friendly Summary
+
+CTX Layer is useful for teams searching for:
+
+- AI coding agent context management
+- context engineering for software repositories
+- local memory for Codex and AI developer tools
+- Model Context Protocol, MCP server, and MCP tool integration
+- AI code governance, audit trails, and policy checks
+- code impact analysis and test selection for agent-generated changes
+- repository-aware AI development workflows
+- local-first LLM developer tooling
+
+## Why Use CTX Layer
 
 Coding models are strongest when they receive the right context and have a
 clear task boundary. Without that, they can miss important files, over-edit,
 forget project rules, or leave future agents without useful history.
 
-CTX Layer improves the coding process by giving agents:
+CTX Layer improves AI-assisted development by giving agents:
 
-- Relevant files and memory before they edit.
+- Relevant files, policies, and memory before they edit.
 - Explicit plans tied to intended files and tests.
-- Guardrails for critical paths, secrets, migrations, dependencies, and CI files.
+- Guardrails for secrets, migrations, dependencies, critical paths, and CI
+  files.
 - Local checks that compare the final diff to the task context.
 - Impact reports that suggest what should be reviewed or tested.
-- Durable summaries of what changed and why.
+- Durable summaries of decisions, trade-offs, and gotchas for future work.
 
 ## Common Use Cases
 
-- **AI-assisted feature work**: give Codex a scoped task, retrieve the right
-  context, create a plan, edit, validate, and record the outcome.
-- **Bug fixes**: identify the relevant area, constrain the edit, and use impact
+- **Codex workflows**: give Codex a scoped task, retrieve the right context,
+  create a plan, edit, validate, and record the outcome.
+- **AI-assisted feature work**: keep generated edits tied to the relevant
+  repository files and tests.
+- **Bug fixes**: identify the related area, constrain the edit, and use impact
   output to decide which tests matter.
-- **Refactors**: keep edits tied to declared files and make broad changes easier
-  to audit.
+- **Refactors**: keep broad edits tied to declared files and make the change
+  easier to audit.
 - **Code review preparation**: run diff checks and impact reports before opening
-  a PR.
-- **Team agent governance**: standardize how AI agents work across repositories.
+  a pull request.
+- **Team agent governance**: standardize how AI agents work across
+  repositories.
 - **Project memory**: preserve useful implementation decisions so future tasks
   do not start from zero.
 - **MCP integration**: expose CTX Layer tools to compatible agent clients.
@@ -69,8 +88,8 @@ CTX Layer improves the coding process by giving agents:
 - **Plan checkpoints**: validates changed files against the active plan step.
 - **Diff checks**: verifies whether the final diff matches the context served to
   the agent.
-- **Impact reports**: analyzes changed paths and related risk so teams can choose
-  practical tests and review focus.
+- **Impact reports**: analyzes changed paths and related risk so teams can
+  choose practical tests and review focus.
 - **Capability policy**: flags or blocks sensitive actions such as touching
   secrets, modifying migrations, changing dependency files, or editing critical
   paths.
@@ -93,7 +112,7 @@ Optional:
 
 ## Install
 
-Install the latest release wheel:
+Install the latest CTX Layer wheel from this release repository:
 
 ```powershell
 python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.1.0/ctxlayer-0.1.0-py3-none-any.whl"
@@ -243,6 +262,28 @@ Then verify:
 ctxlayer --version
 ctxlayer --repo . doctor
 ```
+
+## Repository Discovery Metadata
+
+Recommended GitHub repository description:
+
+```text
+CTX Layer: context engineering, memory, governance, MCP, and impact analysis for AI coding agents like Codex.
+```
+
+Recommended GitHub topics:
+
+```text
+ai-agents, coding-agents, codex, context-engineering, agent-memory, mcp,
+model-context-protocol, ai-governance, developer-tools, python, cli,
+local-first, audit-trail, impact-analysis, code-review, repository-analysis,
+llm, llmops, software-engineering, devtools
+```
+
+For richer WhatsApp, Slack, Discord, LinkedIn, and X previews, upload
+`docs/assets/ctxlayer-social-preview.png` in GitHub repository settings under
+**Social preview**. GitHub controls repository-link Open Graph images from that
+settings screen.
 
 ## License
 
