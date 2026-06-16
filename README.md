@@ -99,6 +99,10 @@ Install the latest release wheel:
 python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.1.0/ctxlayer-0.1.0-py3-none-any.whl"
 ```
 
+Use a normal Python environment, `pipx`, or a virtual environment outside the
+project you want CTX Layer to manage. Avoid placing a new `.venv` inside the
+target project before setup, because repository indexing may scan it.
+
 Verify the install:
 
 ```powershell
@@ -113,17 +117,22 @@ ctxlayer 0.1.0
 
 ## Configure a Project
 
-Run setup from the root of the repository where you want to use CTX Layer:
+Run setup from the root of the repository where you want to use CTX Layer.
+
+For a new folder that is not already a Git repository:
+
+```powershell
+ctxlayer --repo . setup codex --init-git --install-hooks --configure-mcp --absolute-mcp-repo
+ctxlayer --repo . doctor
+ctxlayer --repo . plan --help
+```
+
+For an existing Git repository, omit `--init-git`:
 
 ```powershell
 ctxlayer --repo . setup codex --install-hooks --configure-mcp --absolute-mcp-repo
 ctxlayer --repo . doctor
-```
-
-If the folder is not already a Git repository, add `--init-git`:
-
-```powershell
-ctxlayer --repo . setup codex --init-git --install-hooks --configure-mcp --absolute-mcp-repo
+ctxlayer --repo . plan --help
 ```
 
 Setup may create or update:
