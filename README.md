@@ -1,136 +1,166 @@
-# CTX Layer - Context Engineering, Memory, and Governance for AI Coding Agents
+# CTX Layer
+
+Context engineering, memory, governance, and improvement tooling for AI coding
+agents.
 
 Copyright (c) 2026 Abhilash Pillai. All rights reserved.
 
 Developed by Abhilash Pillai.
 
-CTX Layer is a local-first developer tool for AI coding agents such as Codex.
-It adds context engineering, repository memory, structured planning,
-governance checks, audit trails, MCP integration, and impact analysis to the
-AI-assisted software development workflow.
+CTX Layer is a local-first control plane for AI-assisted software engineering.
+It runs beside a Git repository and gives coding agents such as Codex a
+repeatable workflow for context retrieval, task planning, impact analysis,
+policy checks, project memory, audit trails, and learning from mistakes.
 
-Use CTX Layer when you want coding agents to understand the right files before
-they edit, stay inside an approved task plan, choose better tests, and leave a
-durable explanation of what changed and why.
+Use it when you want an agent to understand the right files before it edits,
+stay inside an approved task boundary, choose better tests, record why a change
+was made, and improve future work from prior outcomes.
 
 ![CTX Layer social preview](docs/assets/ctxlayer-social-preview.png)
-
-## What CTX Layer Is
-
-CTX Layer is a local context and memory layer for AI coding tools. It sits
-beside a Git repository and gives agents a repeatable workflow:
-
-- Build deterministic context packs for each task.
-- Create structured task plans before code changes.
-- Validate changed files against the active plan.
-- Check final diffs against the context served to the agent.
-- Produce impact reports for changed files.
-- Record useful outcomes as local project memory.
-- Generate `AGENTS.md`, hooks, policies, and MCP configuration for supported
-  tools.
-
-The goal is simple: make agentic coding safer, more reviewable, and easier to
-repeat across real repositories.
-
-## Built For Modern Agent Workflows
-
-CTX Layer is meant for repositories where AI coding agents are doing real
-engineering work, not just one-off code suggestions. It gives Codex and other
-agentic development tools a local operating layer for repository context,
-project memory, Model Context Protocol integration, governance policy, audit
-trails, code review preparation, and test impact analysis.
-
-That makes it a practical fit for teams experimenting with context engineering,
-local-first LLM developer tooling, agent memory, MCP servers, and repeatable
-AI-assisted software engineering workflows.
-
-## Why Use CTX Layer
-
-Coding models are strongest when they receive the right context and have a
-clear task boundary. Without that, they can miss important files, over-edit,
-forget project rules, or leave future agents without useful history.
-
-CTX Layer improves AI-assisted development by giving agents:
-
-- Relevant files, policies, and memory before they edit.
-- Explicit plans tied to intended files and tests.
-- Guardrails for secrets, migrations, dependencies, critical paths, and CI
-  files.
-- Local checks that compare the final diff to the task context.
-- Impact reports that suggest what should be reviewed or tested.
-- Durable summaries of decisions, trade-offs, and gotchas for future work.
-
-## Common Use Cases
-
-- **Codex workflows**: give Codex a scoped task, retrieve the right context,
-  create a plan, edit, validate, and record the outcome.
-- **AI-assisted feature work**: keep generated edits tied to the relevant
-  repository files and tests.
-- **Bug fixes**: identify the related area, constrain the edit, and use impact
-  output to decide which tests matter.
-- **Refactors**: keep broad edits tied to declared files and make the change
-  easier to audit.
-- **Code review preparation**: run diff checks and impact reports before opening
-  a pull request.
-- **Team agent governance**: standardize how AI agents work across
-  repositories.
-- **Project memory**: preserve useful implementation decisions so future tasks
-  do not start from zero.
-- **MCP integration**: expose CTX Layer tools to compatible agent clients.
-
-## Key Features
-
-- **Context packs**: task-specific snapshots of relevant files, project memory,
-  policies, and impact signals.
-- **Structured task plans**: JSON-backed plans with objective, steps, intended
-  files, intended tests, capabilities, and risk.
-- **Plan checkpoints**: validates changed files against the active plan step.
-- **Diff checks**: verifies whether the final diff matches the context served to
-  the agent.
-- **Impact reports**: analyzes changed paths and related risk so teams can
-  choose practical tests and review focus.
-- **Capability policy**: flags or blocks sensitive actions such as touching
-  secrets, modifying migrations, changing dependency files, or editing critical
-  paths.
-- **Local memory**: records outcomes, summaries, and approved project knowledge.
-- **Agent setup**: generates `AGENTS.md`, capability policy, hooks, and MCP
-  snippets for project use.
-- **Local-first storage**: project state lives in the project workspace unless
-  you choose to export or integrate it elsewhere.
 
 ## Current Release
 
 Latest wheel: `ctxlayer-0.2.0a1-py3-none-any.whl`
 
+Release asset:
+`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl`
+
 SHA256:
 `7c61aec90413b2b6b758323bb1197b8bd27a926d300970b3f6774987f1f045f8`
 
-`0.2.0a1` is a preview update. It is ready for opt-in use on development and
-non-critical repositories, and existing users should back up their workspace DB
-before upgrading important projects.
+Wheel size: `435445` bytes
 
-New in `0.2.0a1`:
+The `0.2.0a1` build is a preview release for development and non-critical
+repositories. Existing users should back up `.ctxlayer/workspace.db` before the
+first run after upgrading.
 
-- Intent discovery and intent-backed context packs.
-- Goal governance with advisory challenges and accepted alternatives.
-- Extraction quality, trust calibration, semantic graph accuracy, and drift
-  diagnostics.
-- Multi-agent concurrency controls, stale context warnings, and serialized
-  audit-chain writes.
-- Loop-closure verification, bounded learned ranking checks, and ingestion
-  red-team/security gates.
-- Approval-gated business graph entities and business exposure in impact
-  reports.
-- Local/export based organizational knowledge ingestion with redaction,
-  quarantine, approval, and opt-in recall.
-- Advisory decision support with trust-labeled evidence, explicit unknowns, and
-  human decision capture.
-- Cognitive Improvement Engine preview with mistake classification, root-cause
-  tracking, recurrence prediction, checklists, cognitive-debt scoring,
-  effectiveness metrics, default-enabled guarded adoption, and CLI/HTTP/MCP
-  surfaces.
-- Release gate artifacts for benchmark corpus, benchmark trend, dead-code
-  inventory, no-v0 checklist, and gap-audit register.
+The current wheel was refreshed on 2026-06-18 at 12:43 PM IST / 07:13 UTC with
+the Cognitive Improvement Engine build.
+
+## What CTX Layer Does
+
+CTX Layer gives an AI coding agent a structured operating loop:
+
+- Build a deterministic context pack for a task.
+- Start a task session and create a structured plan.
+- Validate changed files against the active plan step.
+- Analyze impact and likely tests for changed paths.
+- Check the final diff against the context the agent received.
+- Record a durable outcome summary for future tasks.
+- Capture project memory, decisions, business rules, runtime signals, and
+  learned improvement signals.
+
+The core workflow is local-first. Repository state, memory records, packs,
+audit entries, dashboard data, and CIE learning runs live in the project
+workspace unless you explicitly export or integrate them elsewhere.
+
+## Why It Exists
+
+Coding agents can edit quickly, but they can also miss context, over-edit,
+forget project rules, repeat old mistakes, or leave no useful trail for the next
+developer or agent. CTX Layer addresses those gaps by making context,
+governance, verification, and memory first-class parts of the coding loop.
+
+It is designed around one practical question:
+
+Before an agent edits this repository, what does it need to know, what must it
+avoid, and how should the result be verified?
+
+## Key Capabilities
+
+- **Context packs**: task-specific snapshots of relevant files, memory, policy,
+  impact signals, business rules, runtime evidence, and provenance.
+- **Task sessions**: traceable task start, pack serving, plan creation,
+  checkpoints, verification, and outcome recording.
+- **Structured plans**: JSON-backed plans with objective, steps, intended
+  files, intended tests, capabilities, and risk levels.
+- **Plan checkpoints**: verifies that edited files belong to the active plan
+  step or require an explicit plan amendment.
+- **Diff checks**: compares the final diff and changed paths against the served
+  context pack and impact closure.
+- **Impact reports**: identifies impacted files, linked tests, risk signals,
+  critical paths, and review focus.
+- **Capability policy**: warns or blocks risky work such as secrets,
+  dependency changes, migrations, generated files, CI changes, and critical
+  paths.
+- **Audit chain**: records task events and outcomes with tamper-evident hashes
+  for accidental edits and partial tampering.
+- **Local memory**: stores outcomes, conventions, gotchas, decisions, runtime
+  signals, business rules, and approved project knowledge.
+- **MCP support**: exposes CTX Layer tools to MCP-compatible agents and clients.
+- **Dashboard and rollups**: renders project, memory, learning, security, CIE,
+  and release-health views.
+
+## Cognitive Improvement Engine
+
+The Cognitive Improvement Engine, or CIE, is the newest preview capability in
+this release. It tracks recurring mistakes and weak signals, classifies likely
+root causes, predicts recurrence risk, proposes checklists and interventions,
+and records whether improvements are effective over time.
+
+CIE functionality is enabled by default in the current wheel. Guardrails still
+apply: local config overrides, learning-off switches, approval metadata,
+required gates, and rollback capability can block adoption.
+
+CIE includes:
+
+- Mistake and near-miss classification.
+- Root-cause and meta-root-cause tracking.
+- Hypothesis generation and validation.
+- Recurrence prediction for risky task patterns.
+- Checklist preview and checklist injection support.
+- Cognitive-debt scoring.
+- Rule effectiveness and decay tracking.
+- Improvement score and learning-quality metrics.
+- Counterfactual and decision-quality signals.
+- Opportunity-cost tracking.
+- Controlled adoption, rejection, suspension, and rollback actions.
+- CLI, HTTP, MCP, dashboard, and rollup surfaces.
+
+Useful CIE commands:
+
+```powershell
+ctxlayer --repo . cie status
+ctxlayer --repo . cie predict --task "describe the task" --path src/app.py
+ctxlayer --repo . cie checklist-preview --task "describe the task"
+ctxlayer --repo . cie cycle --task "review recent work" --limit 20
+ctxlayer --repo . cie archive --limit 10
+ctxlayer --repo . cie show <run_id>
+ctxlayer --repo . cie score
+ctxlayer --repo . cie timeline --run-id <run_id>
+ctxlayer --repo . cie preview-adoption <intervention_id> --run-id <run_id>
+ctxlayer --repo . cie adopt <intervention_id> --run-id <run_id> --approved-by <name>
+ctxlayer --repo . cie reject <intervention_id> --run-id <run_id> --reason "not useful"
+ctxlayer --repo . cie rollback <intervention_id> --run-id <run_id> --approved-by <name>
+```
+
+## More Feature Areas
+
+- **Intent discovery**: creates intent-backed context packs and task framing.
+- **Goal governance**: supports goal records, advisory challenges, accepted
+  alternatives, and decision traceability.
+- **Learning loop**: runs optimization previews, benchmark trends, bounded
+  adoption, revert flows, and loop-closure verification.
+- **Self-modification controls**: proposes, archives, adopts, and reverts
+  controlled self-modification candidates.
+- **Decision support**: records questions, options, evidence, unknowns,
+  analysis, selected option, rationale, and decision history.
+- **Business memory**: extracts and approves business entities, links, rules,
+  conflicts, stale records, and impact exposure.
+- **Organizational knowledge**: ingests local or exported organization sources
+  through redaction, quarantine, approval, and audit flows.
+- **Semantic indexing**: indexes semantic findings, graph context, repository
+  search, confidence repair, low-confidence findings, and accuracy evaluation.
+- **Security gates**: scans secrets and risky text, audits redaction, manages
+  quarantine, and ingests red-team fixture results.
+- **Runtime evidence**: stores incidents, CI failures, feature flags, and
+  operational signals as context and learning candidates.
+- **Workspace support**: indexes multiple repositories and records cross-repo
+  contracts, edges, packages, schemas, and generated-client relationships.
+- **Release and CI support**: emits local CI checks, release validation, audit
+  anchors, annotations, and release-gate artifacts.
+- **Project registry**: tracks projects where CTX Layer has been installed or
+  updated.
 
 ## Requirements
 
@@ -140,22 +170,19 @@ New in `0.2.0a1`:
 
 Optional:
 
-- Codex or another agent that reads `AGENTS.md`
-- An MCP-compatible client if you want tool integration
+- Codex or another coding agent that reads `AGENTS.md`
+- An MCP-compatible client for tool integration
+- A virtual environment, `pipx`, or another isolated Python environment
 
-## Fresh Install
+## Install
 
-Use this path if CTX Layer is not installed on the machine yet.
+Install or upgrade directly from the release wheel:
 
 ```powershell
 python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl"
 ```
 
-Use a normal Python environment, `pipx`, or a virtual environment outside the
-project you want CTX Layer to manage. Avoid placing a new `.venv` inside the
-target project before setup, because repository indexing may scan it.
-
-Verify the install:
+Verify:
 
 ```powershell
 ctxlayer --version
@@ -167,10 +194,13 @@ Expected output:
 ctxlayer 0.2.0a1
 ```
 
-## Configure a Project
+Avoid creating a new `.venv` inside the target project before setup unless you
+plan to exclude it from indexing. A virtual environment outside the project is
+usually cleaner.
 
-These instructions are still valid for a fresh release. Run setup from the root
-of the repository where you want to use CTX Layer.
+## Configure A Project
+
+Run setup from the root of the repository where you want to use CTX Layer.
 
 For a new folder that is not already a Git repository:
 
@@ -208,17 +238,16 @@ Usually do not commit:
 `.ctxlayer/` contains local workspace state, databases, generated context, and
 machine-specific MCP snippets.
 
-## Daily Usage With Codex
+## Daily Agent Workflow
 
-After setup, Codex should follow the workflow written into `AGENTS.md`. The
-typical lifecycle is:
+After setup, the generated `AGENTS.md` asks agents to use this lifecycle:
 
 ```powershell
 ctxlayer --repo . task start --task "<task>"
 ctxlayer --repo . pack --task "<task>"
 ```
 
-Create a structured plan:
+Create a structured task plan:
 
 ```powershell
 ctxlayer --repo . plan create --task-session-id <task_session_id> --pack-id <pack_id> --file <plan.json>
@@ -230,7 +259,7 @@ Checkpoint changed files:
 ctxlayer --repo . plan checkpoint <plan_id> --step-id <step_id> --path <changed_path>
 ```
 
-Before finishing, run preflight checks:
+Run preflight checks before declaring work complete:
 
 ```powershell
 git diff HEAD | ctxlayer --repo . check-diff --pack-id <pack_id>
@@ -244,57 +273,108 @@ Record the outcome:
 ctxlayer --repo . outcome --pack-id <pack_id> --result pass --summary "<what changed and why>"
 ```
 
-## Useful Commands
+The outcome summary is important. It becomes durable project memory that future
+tasks can retrieve.
 
-Check project health:
+## Common Commands
+
+Project health:
 
 ```powershell
 ctxlayer --repo . doctor
-```
-
-Index or refresh repository context:
-
-```powershell
 ctxlayer --repo . index
+ctxlayer --repo . gc
 ```
 
-Generate a context pack:
+Context, impact, and search:
 
 ```powershell
 ctxlayer --repo . pack --task "describe the change"
+ctxlayer --repo . impact --paths src/app/service.py
+git diff --name-only HEAD | ctxlayer --repo . check-diff --pack-id <pack_id> --paths-from-stdin
+ctxlayer --repo . search "business rule"
 ```
 
-Inspect impact for files:
+Memory and business knowledge:
 
 ```powershell
-ctxlayer --repo . impact --paths src/app/service.py
+ctxlayer --repo . memory candidates
+ctxlayer --repo . memory list
+ctxlayer --repo . business entity list
+ctxlayer --repo . business link list
 ```
 
-Run the MCP server:
+Learning and CIE:
+
+```powershell
+ctxlayer --repo . learning status
+ctxlayer --repo . learning loop-verify --all
+ctxlayer --repo . cie status
+ctxlayer --repo . cie cycle --task "review recent work"
+```
+
+Decision support:
+
+```powershell
+ctxlayer --repo . decision start --question "Which approach should we use?" --option "A" --option "B"
+ctxlayer --repo . decision analyze <decision_id>
+ctxlayer --repo . decision record <decision_id> --chosen <option_id> --rationale "why"
+```
+
+Security, semantic, and org knowledge:
+
+```powershell
+ctxlayer --repo . security scan
+ctxlayer --repo . semantic index
+ctxlayer --repo . semantic search "checkout flow"
+ctxlayer --repo . org ingest --source local --path docs
+```
+
+Dashboard, rollup, and MCP:
+
+```powershell
+ctxlayer --repo . dashboard render --output .ctxlayer/dashboard.html
+ctxlayer --repo . rollup --output .ctxlayer/rollup.json
+ctxlayer --repo . mcp
+```
+
+HTTP server:
+
+```powershell
+ctxlayer --repo . serve --host 127.0.0.1 --port 8765 --auth token
+```
+
+## MCP Integration
+
+Setup can generate MCP snippets for supported clients:
+
+```powershell
+ctxlayer --repo . setup codex --configure-mcp --absolute-mcp-repo
+```
+
+The MCP server exposes the same local project intelligence used by the CLI:
+context packs, impact, memory, learning, CIE, decision support, dashboard data,
+and governance flows.
+
+For local use:
 
 ```powershell
 ctxlayer --repo . mcp
 ```
 
-Render the local dashboard:
+Review generated `.ctxlayer/mcp/` files before copying them into a client
+configuration.
 
-```powershell
-ctxlayer --repo . dashboard render --output .ctxlayer/dashboard.html
-```
+## Updating Existing Workspaces
 
-## Updating
-
-Use this path if CTX Layer is already installed and you want to update it to the
-latest preview wheel.
-
-If the target project already has a `.ctxlayer/workspace.db`, back it up before
-the first `0.2.0a1` run:
+Back up the workspace database before first use of this preview on an important
+repository:
 
 ```powershell
 Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a1.bak
 ```
 
-Install the newer release wheel:
+Install the current wheel:
 
 ```powershell
 python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl"
@@ -307,13 +387,34 @@ ctxlayer --version
 ctxlayer --repo . doctor
 ctxlayer --repo . index
 ctxlayer --repo . pack --task "release update smoke test"
+ctxlayer --repo . cie status
 ```
 
-Expected version:
+## Safety Notes
 
-```text
-ctxlayer 0.2.0a1
-```
+- CTX Layer is local-first, but generated configuration and hooks should still
+  be reviewed before team-wide adoption.
+- Context packs and memory are only as good as the repository state and
+  approvals they are built from.
+- CIE adoption is enabled by default in this release, but guarded by local
+  configuration, approval metadata, learning-off switches, gates, and rollback
+  support.
+- The audit chain is tamper-evident for accidental edits and partial tampering.
+  It is not a substitute for access control on the local workspace database.
+- This preview should be exercised on development repositories before use on
+  critical production codebases.
+
+## Repository Layout
+
+This release repository contains:
+
+- `releases/`: wheel artifacts for direct installation.
+- `docs/`: public documentation and preview assets.
+- `README.md`: current release overview and install instructions.
+- `LICENSE`: license terms.
+
+The main development source is maintained separately in the Advanced CTX Layer
+project. This repository is the public release distribution point.
 
 ## License
 
@@ -321,14 +422,8 @@ Copyright (c) 2026 Abhilash Pillai. All rights reserved.
 
 CTX Layer is currently free to use for local, personal, non-commercial projects.
 Commercial use, enterprise deployment, resale, redistribution as part of a paid
-product or service, hosted service use, and internal company-wide rollout require
-prior written permission and a separate commercial license from Abhilash Pillai.
+product or service, hosted service use, and internal company-wide rollout
+require prior written permission and a separate commercial license from
+Abhilash Pillai.
 
 See [LICENSE](LICENSE) for the full terms.
-
-## Notes
-
-CTX Layer is local-first. It does not require source code to be sent to a hosted
-service for the core workflow. Each team should still review generated
-configuration, hooks, and policies before adopting them across important
-repositories.
