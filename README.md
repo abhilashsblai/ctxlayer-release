@@ -98,6 +98,33 @@ CTX Layer improves AI-assisted development by giving agents:
 - **Local-first storage**: project state lives in the project workspace unless
   you choose to export or integrate it elsewhere.
 
+## Current Release
+
+Latest wheel: `ctxlayer-0.2.0a1-py3-none-any.whl`
+
+`0.2.0a1` is a preview update. It is ready for opt-in use on development and
+non-critical repositories, and existing users should back up their workspace DB
+before upgrading important projects.
+
+New in `0.2.0a1`:
+
+- Intent discovery and intent-backed context packs.
+- Goal governance with advisory challenges and accepted alternatives.
+- Extraction quality, trust calibration, semantic graph accuracy, and drift
+  diagnostics.
+- Multi-agent concurrency controls, stale context warnings, and serialized
+  audit-chain writes.
+- Loop-closure verification, bounded learned ranking checks, and ingestion
+  red-team/security gates.
+- Approval-gated business graph entities and business exposure in impact
+  reports.
+- Local/export based organizational knowledge ingestion with redaction,
+  quarantine, approval, and opt-in recall.
+- Advisory decision support with trust-labeled evidence, explicit unknowns, and
+  human decision capture.
+- Release gate artifacts for benchmark corpus, benchmark trend, dead-code
+  inventory, no-v0 checklist, and gap-audit register.
+
 ## Requirements
 
 - Python 3.11 or newer
@@ -109,12 +136,12 @@ Optional:
 - Codex or another agent that reads `AGENTS.md`
 - An MCP-compatible client if you want tool integration
 
-## Install
+## Fresh Install
 
-Install the latest release wheel:
+Use this path if CTX Layer is not installed on the machine yet.
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.1.0/ctxlayer-0.1.0-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl"
 ```
 
 Use a normal Python environment, `pipx`, or a virtual environment outside the
@@ -130,12 +157,13 @@ ctxlayer --version
 Expected output:
 
 ```text
-ctxlayer 0.1.0
+ctxlayer 0.2.0a1
 ```
 
 ## Configure a Project
 
-Run setup from the root of the repository where you want to use CTX Layer.
+These instructions are still valid for a fresh release. Run setup from the root
+of the repository where you want to use CTX Layer.
 
 For a new folder that is not already a Git repository:
 
@@ -249,10 +277,20 @@ ctxlayer --repo . dashboard render --output .ctxlayer/dashboard.html
 
 ## Updating
 
-Install the newer release wheel when a new version is published:
+Use this path if CTX Layer is already installed and you want to update it to the
+latest preview wheel.
+
+If the target project already has a `.ctxlayer/workspace.db`, back it up before
+the first `0.2.0a1` run:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.1.0/ctxlayer-0.1.0-py3-none-any.whl"
+Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a1.bak
+```
+
+Install the newer release wheel:
+
+```powershell
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl"
 ```
 
 Then verify:
@@ -260,6 +298,14 @@ Then verify:
 ```powershell
 ctxlayer --version
 ctxlayer --repo . doctor
+ctxlayer --repo . index
+ctxlayer --repo . pack --task "release update smoke test"
+```
+
+Expected version:
+
+```text
+ctxlayer 0.2.0a1
 ```
 
 ## License
