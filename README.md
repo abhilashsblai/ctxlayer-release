@@ -20,22 +20,48 @@ was made, and improve future work from prior outcomes.
 
 ## Current Release
 
-Latest wheel: `ctxlayer-0.2.0a1-py3-none-any.whl`
+Latest wheel: `ctxlayer-0.2.0a2-py3-none-any.whl`
 
 Release asset:
-`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl`
+`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a2/ctxlayer-0.2.0a2-py3-none-any.whl`
 
 SHA256:
-`7c61aec90413b2b6b758323bb1197b8bd27a926d300970b3f6774987f1f045f8`
+`3af3b732d807a721430adab61a98a998de270153408a417e771a695aa3c468a8`
 
-Wheel size: `435445` bytes
+Wheel size: `426472` bytes
 
-The `0.2.0a1` build is a preview release for development and non-critical
+The `0.2.0a2` build is a preview release for development and non-critical
 repositories. Existing users should back up `.ctxlayer/workspace.db` before the
 first run after upgrading.
 
-The current wheel was refreshed on 2026-06-18 at 12:43 PM IST / 07:13 UTC with
-the Cognitive Improvement Engine build.
+The current wheel was refreshed on 2026-06-19 with the reliable-enforcement,
+large-DB performance, and Cognitive Improvement Engine preview build.
+
+### Why Upgrade From Earlier Wheels
+
+Earlier preview wheels could still hit the old large-database startup path. On
+the real CTX Layer workspace DB, service construction was measured around
+`6,890 ms` to `7,000 ms`. Accessing the large database also made recall feel
+like a cold-start bottleneck: before the final `0.2.0a2` hot-path fix,
+large-DB memory recall/access was measured around `273 ms` to `314 ms` because
+recall resolved a full repository snapshot before scoring memory.
+
+`0.2.0a2` packages the performance and reliable-enforcement fixes:
+
+- Steady-state `CtxLayerService` construction is now measured at `1.95 ms` to
+  `2.07 ms` median in final bench/release-gate runs.
+- The first fixed migration/dedup pass on the large DB was measured at about
+  `133 ms`, then future steady-state startup returns to single-digit
+  milliseconds.
+- Memory recall/access against the large DB is now measured at `9.56 ms` to
+  `10.38 ms` median in final bench/release-gate runs; DB-size warnings are still
+  surfaced through `ctx_health`.
+- Existing DBs with populated `schema_migrations` but `PRAGMA user_version = 0`
+  use the count-based migration gate, avoiding unnecessary reconciliation before
+  the later `user_version` cleanup.
+- Reliability work adds bounded query budgets, persisted health probes,
+  fail-loud degraded pack/enforcement status, governed verification artifacts,
+  and deep garbage collection for old snapshot content.
 
 ## What CTX Layer Does
 
@@ -179,7 +205,7 @@ Optional:
 Install or upgrade directly from the release wheel:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a2/ctxlayer-0.2.0a2-py3-none-any.whl"
 ```
 
 Verify:
@@ -191,7 +217,7 @@ ctxlayer --version
 Expected output:
 
 ```text
-ctxlayer 0.2.0a1
+ctxlayer 0.2.0a2
 ```
 
 Avoid creating a new `.venv` inside the target project before setup unless you
@@ -371,13 +397,13 @@ Back up the workspace database before first use of this preview on an important
 repository:
 
 ```powershell
-Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a1.bak
+Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a2.bak
 ```
 
 Install the current wheel:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a1/ctxlayer-0.2.0a1-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a2/ctxlayer-0.2.0a2-py3-none-any.whl"
 ```
 
 Then verify:
