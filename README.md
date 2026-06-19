@@ -20,22 +20,23 @@ was made, and improve future work from prior outcomes.
 
 ## Current Release
 
-Latest wheel: `ctxlayer-0.2.0a2-py3-none-any.whl`
+Latest wheel: `ctxlayer-0.2.0a3-py3-none-any.whl`
 
 Release asset:
-`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a2/ctxlayer-0.2.0a2-py3-none-any.whl`
+`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a3/ctxlayer-0.2.0a3-py3-none-any.whl`
 
 SHA256:
-`3af3b732d807a721430adab61a98a998de270153408a417e771a695aa3c468a8`
+`b9267d164a9dfdd65925775b3af54cffbebc3c282e59e710fe74c766bc3740d3`
 
-Wheel size: `426472` bytes
+Wheel size: `447131` bytes
 
-The `0.2.0a2` build is a preview release for development and non-critical
+The `0.2.0a3` build is a preview release for development and non-critical
 repositories. Existing users should back up `.ctxlayer/workspace.db` before the
 first run after upgrading.
 
 The current wheel was refreshed on 2026-06-19 with the reliable-enforcement,
-large-DB performance, and Cognitive Improvement Engine preview build.
+large-DB performance, memory optimization, deep-GC, and Cognitive Improvement
+Engine preview build.
 
 ### Why Upgrade From Earlier Wheels
 
@@ -46,7 +47,8 @@ like a cold-start bottleneck: before the final `0.2.0a2` hot-path fix,
 large-DB memory recall/access was measured around `273 ms` to `314 ms` because
 recall resolved a full repository snapshot before scoring memory.
 
-`0.2.0a2` packages the performance and reliable-enforcement fixes:
+`0.2.0a3` packages the performance, reliable-enforcement, and memory
+optimization fixes:
 
 - Steady-state `CtxLayerService` construction is now measured at `1.95 ms` to
   `2.07 ms` median in final bench/release-gate runs.
@@ -62,6 +64,16 @@ recall resolved a full repository snapshot before scoring memory.
 - Reliability work adds bounded query budgets, persisted health probes,
   fail-loud degraded pack/enforcement status, governed verification artifacts,
   and deep garbage collection for old snapshot content.
+- Deep GC now works on production-sized CTX databases with sqlite-vec enabled:
+  vector row cleanup is batched below SQLite host-parameter limits, so pruning
+  large snapshot generations no longer crashes with `too many SQL variables`.
+- Snapshot retention now unpins aged reconstructible context packs before deep
+  pruning. This lets old index generations become collectible while preserving
+  `bound_snapshot_id` and manifest history for audit/reconstruction.
+- Large database compaction is explicit and safer. Databases above the compact
+  threshold use `VACUUM INTO` to create a verified `.compact` sidecar, report
+  `compact_swap_required`, and tell the operator exactly which compact copy must
+  replace the live database after CTX processes are stopped.
 
 ## What CTX Layer Does
 
@@ -187,6 +199,10 @@ ctxlayer --repo . cie rollback <intervention_id> --run-id <run_id> --approved-by
   anchors, annotations, and release-gate artifacts.
 - **Project registry**: tracks projects where CTX Layer has been installed or
   updated.
+- **Memory optimization and maintenance**: reports database size, retention
+  state, maintenance history, dry-run GC forecasts, deep snapshot pruning,
+  packed vectors, FTS cleanup, edge pruning, aged pack unpinning, and safe
+  compact-copy workflows for large workspaces.
 
 ## Requirements
 
@@ -205,7 +221,7 @@ Optional:
 Install or upgrade directly from the release wheel:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a2/ctxlayer-0.2.0a2-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a3/ctxlayer-0.2.0a3-py3-none-any.whl"
 ```
 
 Verify:
@@ -217,7 +233,7 @@ ctxlayer --version
 Expected output:
 
 ```text
-ctxlayer 0.2.0a2
+ctxlayer 0.2.0a3
 ```
 
 Avoid creating a new `.venv` inside the target project before setup unless you
@@ -310,6 +326,10 @@ Project health:
 ctxlayer --repo . doctor
 ctxlayer --repo . index
 ctxlayer --repo . gc
+ctxlayer --repo . db-stats
+ctxlayer --repo . gc --deep --dry-run
+ctxlayer --repo . gc --deep
+ctxlayer --repo . maintenance history
 ```
 
 Context, impact, and search:
@@ -391,19 +411,42 @@ ctxlayer --repo . mcp
 Review generated `.ctxlayer/mcp/` files before copying them into a client
 configuration.
 
+## Upcoming Enhancements
+
+The next planned areas build on the current memory, reliability, and learning
+foundation:
+
+- **Organizational agent skill enhancement**: promote proven project-level
+  agent skills into organization-level skill libraries, validate them across
+  repositories, track ownership and approval, and route the right skill guidance
+  into context packs for each team or codebase.
+- **Cross-project memory governance**: improve privacy checks, redaction,
+  approval workflows, and revalidation before a local lesson or skill becomes
+  reusable organization knowledge.
+- **Cold memory tiering**: summarize or archive old, low-access memories and
+  index generations while keeping current recall fast and bounded.
+- **Automated compact swap support**: add a guarded command to perform the
+  verified `.compact` database swap when no CTX process is holding the live DB.
+- **Retention policy controls**: expose more per-repo and per-target retention
+  policy options through CLI, MCP, dashboard, and release-health views.
+- **Large-workspace diagnostics**: add clearer dashboards for table growth,
+  pinned snapshots, context-pack aging, vector storage, and reclaim estimates.
+- **Enterprise rollout controls**: strengthen multi-repo policy packs,
+  release gates, team dashboards, and audit exports for managed deployments.
+
 ## Updating Existing Workspaces
 
 Back up the workspace database before first use of this preview on an important
 repository:
 
 ```powershell
-Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a2.bak
+Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a3.bak
 ```
 
 Install the current wheel:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a2/ctxlayer-0.2.0a2-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a3/ctxlayer-0.2.0a3-py3-none-any.whl"
 ```
 
 Then verify:
@@ -414,7 +457,27 @@ ctxlayer --repo . doctor
 ctxlayer --repo . index
 ctxlayer --repo . pack --task "release update smoke test"
 ctxlayer --repo . cie status
+ctxlayer --repo . db-stats
+ctxlayer --repo . gc --deep --dry-run
 ```
+
+If `ctxlayer --repo . gc --deep` reports `compact_swap_required: true`, CTX has
+created and verified a compact database copy, usually named
+`.ctxlayer/workspace.db.compact`. Stop CTX processes, back up the live
+`.ctxlayer/workspace.db`, then replace it with the compact copy. This manual
+swap avoids Windows open-file lock issues and makes the reclaim step explicit.
+
+For large existing workspaces, the recommended first maintenance pass is:
+
+```powershell
+ctxlayer --repo . db-stats
+ctxlayer --repo . gc --deep --dry-run
+ctxlayer --repo . gc --deep
+ctxlayer --repo . db-stats
+```
+
+The dry run shows the expected snapshot, edge, vector, FTS, policy, and aged
+context-pack unpinning counts before anything is deleted.
 
 ## Safety Notes
 
