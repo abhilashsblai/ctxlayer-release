@@ -11,8 +11,9 @@ Developed by Abhilash Pillai.
 
 CTX Layer sits between an AI coding agent and your codebase.
 
-It provides context intelligence, execution governance, impact awareness,
-organizational intelligence, auditability, and continuous improvement.
+It provides context intelligence, workflow orchestration, execution governance,
+impact awareness, organizational intelligence, auditability, and continuous
+improvement.
 
 Without CTX Layer, AI agents generate code.
 
@@ -47,6 +48,7 @@ Prompt
   |
   v
 CTX Layer
+  |-- Workflow Orchestration
   |-- Context Intelligence
   |-- Project and Organizational Intelligence
   |-- Execution Governance
@@ -74,20 +76,20 @@ Agent executes
 Outcome captured
   |
   v
-Mistake or success analyzed
+Mistake, success, or missing gate analyzed
   |
   v
-Root cause identified
+Root cause and workflow state identified
   |
   v
-Intervention or skill update created
+Intervention, gate, or skill update created
   |
   v
 Future behavior improved
 ```
 
-This makes CTX Layer a governed coding-agent platform with a built-in
-cognitive improvement loop.
+This makes CTX Layer a governed coding-agent platform with a built-in workflow
+router and cognitive improvement loop.
 
 ## Why CTX Layer Exists
 
@@ -95,6 +97,7 @@ cognitive improvement loop.
 | --- | --- | --- |
 | Code generation | Yes | Yes |
 | Context management | Limited | Yes |
+| Workflow routing | No | Yes |
 | Execution governance | Limited | Yes |
 | Impact analysis | Limited | Yes |
 | Project intelligence | Limited | Yes |
@@ -109,108 +112,120 @@ reuse project knowledge, learn from outcomes, and improve across workstreams.
 
 ## Current Release
 
-Latest wheel: `ctxlayer-0.2.0a7-py3-none-any.whl`
+Latest wheel: `ctxlayer-0.2.0a8-py3-none-any.whl`
 
 Release asset:
-`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a7/ctxlayer-0.2.0a7-py3-none-any.whl`
+`https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a8/ctxlayer-0.2.0a8-py3-none-any.whl`
 
 SHA256:
-`af17b6051e70683c1625725cf59d2b9a96081542957254c9eac0b33d06ef0cc2`
+`a348d2147aca306ebdde40ad0734b2921dd219289ebdabc984e0baf2fc39cec6`
 
-Wheel size: `550982` bytes
+Wheel size: `573658` bytes
 
-The `0.2.0a7` build is a preview release for development and non-critical
+The `0.2.0a8` build is a preview release for development and non-critical
 repositories. Existing users should back up `.ctxlayer/workspace.db` before the
 first run after upgrading.
 
-The current wheel was built on 2026-06-23 from the latest Advanced-CTX-Layer
-source after the `0.2.0a7` version bump. It includes the multi-agent adapter
-layer for Codex, Claude Code, and Cursor, the full sixth-sense anticipation
-hardening path, plus the reliable-enforcement, large-DB performance,
-fluid-memory optimization, deep-GC, Cognitive Improvement Engine preview,
-skill-evolution, and write-time semantic guardrail build. It supersedes the
-refreshed `0.2.0a6` wheel by publishing the same post-a6 source line under a
-new Python package version instead of mutating the previous preview version.
-It was built from Advanced-CTX-Layer source commit `9f7d041`.
+The current wheel was built on 2026-06-23 from Advanced-CTX-Layer source commit
+`9c6d227`. It includes the workflow orchestrator, feature-catalog workbook
+drift checks, CI workflow linting, CIE surface expansion, snapshot-aware
+workflow resume, multi-agent adapter support, anticipation preview,
+reliable-enforcement work, large-DB performance work, memory optimization,
+deep-GC maintenance, skill evolution, and write-time semantic guardrails.
 
 ### Why Upgrade From Earlier Wheels
 
-Earlier preview wheels could still hit the old large-database startup path. On
-the real CTX Layer workspace DB, service construction was measured around
-`6,890 ms` to `7,000 ms`. Accessing the large database also made recall feel
-like a cold-start bottleneck: before the final `0.2.0a2` hot-path fix,
+Earlier preview wheels did not include the workflow orchestrator and could not
+separate read-only work from write tasks through a durable task router.
+`0.2.0a8` adds mode-aware classification, gate tracking, CLI/MCP workflow
+surfaces, and CI-visible feature catalog drift checks.
+
+Earlier preview wheels also carried the old large-database startup path. On the
+real CTX Layer workspace DB, service construction was previously measured
+around `6,890 ms` to `7,000 ms`. Accessing the large database also made recall
+feel like a cold-start bottleneck: before the final `0.2.0a2` hot-path fix,
 large-DB memory recall/access was measured around `273 ms` to `314 ms` because
 recall resolved a full repository snapshot before scoring memory.
 
-`0.2.0a7` packages the multi-agent adapter layer, anticipation layer,
-performance, reliable-enforcement, fluid-memory optimization, skill-evolution,
-and write-time semantic guardrail fixes:
+`0.2.0a8` packages the workflow, multi-agent, anticipation, performance,
+reliable-enforcement, memory optimization, skill-evolution, CIE, and write-time
+semantic guardrail fixes:
 
+- The workflow orchestrator recommends task types, starts governed workflow
+  sessions, evaluates pending gates, and returns the next required action.
+- Workflow task types compose shared playbook fragments, including a
+  `core_session` base and specialized write modes such as standard edit, test
+  edit, CI edit, dependency edit, migration edit, security edit, and release
+  work.
+- Read-only and write modes are separated. Read tasks avoid write gates, while
+  write tasks receive diff, plan, impact, test, and clean-worktree gates as
+  appropriate.
+- Volatile gates are fingerprinted, so checks such as clean-diff state become
+  stale when the relevant changed paths change.
+- Workflow snapshots are persisted in agent session memory and reused by
+  `workflow next`, including newest-snapshot selection for restarted sessions.
+- The workflow feature catalog exports a deterministic `features/features.xlsx`
+  workbook. CI can run `python -m ctxlayer.workflow.export_features --check`
+  to catch catalog or playbook drift.
+- `ctxlayer workflow lint` validates the feature catalog, playbook, classifier,
+  router, gates, and parameter contracts without requiring pytest.
+- Codex advisory wiring can surface `workflow_next_action` through the pre-tool
+  gate so agents see the missing workflow step before editing.
 - The anticipation layer adds deterministic surprise scoring, calibrated
   prediction records, expected-free-energy lookahead, interoceptive gut state,
   and quarantined online learning.
-- Sixth-sense hardening adds embedding-world-model generalization, consequence
-  simulation, cross-repo transfer hooks, validation/hardening gates, and a
-  documented `sixth_sense-evolution/` rollout path through phases 00-11.
-- Codex PreToolUse hooks now compute anticipation live through the service path,
+- Codex PreToolUse hooks compute anticipation live through the service path,
   emit nudge events, and can only block high surprise when it is corroborated by
   an independent risk signal.
 - Enforce mode is guarded by the latest model calibration ECE threshold and
   downgrades to warn mode until calibration is acceptable.
-- Fluid memory optimization adds hot-path indexes, bounded vector fallback,
-  read-only parallel retrieval, query-planner optimization, explicit memory
-  health telemetry, and `memory bench` latency SLO reporting.
-- Large workspace maintenance now reports verified compact DB copies when a
-  live swap would be unsafe, making operational cleanup explicit instead of
-  silently mutating active CTX databases.
-- Multi-agent setup is now adapter-driven. `ctxlayer setup --agents
+- Multi-agent setup is adapter-driven. `ctxlayer setup --agents
   codex,claude,cursor` renders native Codex, Claude Code, and Cursor surfaces
   from the same CTX Layer contract.
 - `ctxlayer setup auto` detects the running supported agent and renders that
   agent's instruction file, MCP snippets, hooks, subagents, and skills where the
   agent supports them.
-- Claude Code setup now writes `CLAUDE.md`, `.claude/settings.json`,
+- Claude Code setup writes `CLAUDE.md`, `.claude/settings.json`,
   `.claude/agents/*.md`, `.claude/skills/ctx-loop/SKILL.md`, `.mcp.json`, and
   Claude hook registration that reuses the CTX Layer hook.
 - Cursor setup writes `.cursor/rules/ctxlayer.mdc` and `.cursor/mcp.json`, and
-  reports `mcp-only` enforcement because Cursor does not provide lifecycle hook,
-  subagent, or skill surfaces.
-- Steady-state `CtxLayerService` construction is now measured at `1.95 ms` to
-  `2.07 ms` median in final bench/release-gate runs.
-- The first fixed migration/dedup pass on the large DB was measured at about
-  `133 ms`, then future steady-state startup returns to single-digit
-  milliseconds.
-- Memory recall/access against the large DB is now measured at `9.56 ms` to
-  `10.38 ms` median in final bench/release-gate runs; DB-size warnings are still
-  surfaced through `ctx_health`.
+  reports `mcp-only` enforcement because Cursor does not provide lifecycle
+  hook, subagent, or skill surfaces.
+- Steady-state `CtxLayerService` construction is measured in the low
+  single-digit millisecond range after the migration and large-DB fixes.
+- Memory recall/access against large DBs is measured in the low tens of
+  milliseconds in release-gate runs; DB-size warnings are still surfaced through
+  `ctx_health`.
 - Existing DBs with populated `schema_migrations` but `PRAGMA user_version = 0`
-  use the count-based migration gate, avoiding unnecessary reconciliation before
-  the later `user_version` cleanup.
+  use the count-based migration gate, avoiding unnecessary reconciliation
+  before the later `user_version` cleanup.
 - Reliability work adds bounded query budgets, persisted health probes,
   fail-loud degraded pack/enforcement status, governed verification artifacts,
   and deep garbage collection for old snapshot content.
-- Deep GC now works on production-sized CTX databases with sqlite-vec enabled:
+- Deep GC works on production-sized CTX databases with sqlite-vec enabled:
   vector row cleanup is batched below SQLite host-parameter limits, so pruning
   large snapshot generations no longer crashes with `too many SQL variables`.
-- Snapshot retention now unpins aged reconstructible context packs before deep
+- Snapshot retention unpins aged reconstructible context packs before deep
   pruning. This lets old index generations become collectible while preserving
   `bound_snapshot_id` and manifest history for audit/reconstruction.
-- Write-time semantic guardrails now flow from governed `memory_enforcement`
+- Write-time semantic guardrails flow from governed `memory_enforcement`
   directives into context packs and plans, the Codex PreToolUse gate,
   `check-diff`/CI validation, audited override handling, and dashboard/rollup
   telemetry. Guardrails default to warn mode and can be raised to content-match
   blocking with approval, severity, and confidence floors.
 - Large database compaction is explicit and safer. Databases above the compact
   threshold use `VACUUM INTO` to create a verified `.compact` sidecar, report
-  `compact_swap_required`, and tell the operator exactly which compact copy must
+  `compact_swap_required`, and tell the operator which compact copy must
   replace the live database after CTX processes are stopped.
 
 ## Execution Workflow
 
 CTX Layer gives an AI coding agent a structured operating loop:
 
-- Build a deterministic context pack for a task.
-- Start a task session and create a structured plan.
+- Classify the requested task and recommend the right workflow.
+- Start or resume a workflow session with durable task metadata.
+- Build a deterministic context pack for the task.
+- Create a structured plan with files, tests, capabilities, and risk.
 - Validate changed files against the active plan step.
 - Analyze impact and likely tests for changed paths.
 - Check the final diff against the context the agent received.
@@ -219,16 +234,17 @@ CTX Layer gives an AI coding agent a structured operating loop:
   learned improvement signals.
 
 The core workflow is local-first. Repository state, project intelligence
-records, packs, audit entries, dashboard data, and CIE learning runs live in the
-project workspace unless you explicitly export or integrate them elsewhere.
+records, packs, audit entries, dashboard data, workflow snapshots, and CIE
+learning runs live in the project workspace unless you explicitly export or
+integrate them elsewhere.
 
 ## Built For Governed Agent Coding
 
 Coding agents can edit quickly, but they can also miss context, over-edit,
 forget project rules, repeat old mistakes, or leave no useful trail for the next
 developer or agent. CTX Layer addresses those gaps by making context,
-governance, verification, project intelligence, and improvement first-class
-parts of the coding loop.
+governance, verification, project intelligence, workflow state, and improvement
+first-class parts of the coding loop.
 
 It is designed around one practical question:
 
@@ -237,10 +253,16 @@ avoid, and how should the result be verified?
 
 ## Key Capabilities
 
+- **Workflow orchestrator**: recommends task types, starts sessions, records
+  workflow snapshots, evaluates durable and volatile gates, and reports the
+  next required action.
+- **Feature catalog and playbook**: defines workflow task types, required
+  capabilities, gates, parameters, escalation behavior, and deterministic
+  workbook export.
 - **Context packs**: task-specific snapshots of relevant files, memory, policy,
   impact signals, business rules, runtime evidence, and provenance.
 - **Task sessions**: traceable task start, pack serving, plan creation,
-  checkpoints, verification, and outcome recording.
+  checkpoints, verification, workflow gate recording, and outcome recording.
 - **Structured plans**: JSON-backed plans with objective, steps, intended
   files, intended tests, capabilities, and risk levels.
 - **Plan checkpoints**: verifies that edited files belong to the active plan
@@ -256,16 +278,48 @@ avoid, and how should the result be verified?
   for accidental edits and partial tampering.
 - **Project intelligence**: stores outcomes, conventions, gotchas, decisions,
   runtime signals, business rules, and approved project knowledge.
-- **MCP support**: exposes CTX Layer tools to MCP-compatible agents and clients.
+- **MCP support**: exposes CTX Layer tools to MCP-compatible agents and
+  clients, including workflow and CIE surfaces.
 - **Dashboard and rollups**: renders project, memory, learning, security, CIE,
-  and release-health views.
+  workflow, and release-health views.
+
+## Workflow Orchestrator
+
+The workflow orchestrator is the main new capability in `0.2.0a8`. It gives
+agents a task-specific route before they begin editing.
+
+Workflow capabilities include:
+
+- `ctxlayer workflow recommend` for task classification and route preview.
+- `ctxlayer workflow start` for creating a governed workflow snapshot.
+- `ctxlayer workflow next` for checking pending gates and the next action.
+- `ctxlayer workflow lint` for validating catalog/playbook/router consistency.
+- MCP tools for recommendation, start, and next-action surfaces.
+- Mode-aware classification for read-only, write, test, CI, dependency,
+  migration, security, release, documentation, and troubleshooting work.
+- Durable gates for pack, plan, checkpoint, impact, diff, tests, outcome, and
+  release-specific checks.
+- Volatile gates for state that can change under the agent, such as clean diff
+  checks that depend on changed-path fingerprints.
+- Snapshot recovery through agent session memory if a task session is resumed.
+- Feature-catalog workbook export for human inspection and CI drift checks.
+
+Useful commands:
+
+```powershell
+ctxlayer --repo . workflow recommend --task "fix checkout validation"
+ctxlayer --repo . workflow start --task "fix checkout validation" --mode write
+ctxlayer --repo . workflow next --task-session-id <task_session_id>
+ctxlayer --repo . workflow lint
+python -m ctxlayer.workflow.export_features --check
+```
 
 ## Cognitive Improvement Engine
 
-The Cognitive Improvement Engine, or CIE, is the newest preview capability in
-this release. It tracks recurring mistakes and weak signals, classifies likely
-root causes, predicts recurrence risk, proposes checklists and interventions,
-and records whether improvements are effective over time.
+The Cognitive Improvement Engine, or CIE, tracks recurring mistakes and weak
+signals, classifies likely root causes, predicts recurrence risk, proposes
+checklists and interventions, and records whether improvements are effective
+over time.
 
 CIE functionality is enabled by default in the current wheel. Guardrails still
 apply: local config overrides, learning-off switches, approval metadata,
@@ -327,7 +381,8 @@ ctxlayer --repo . cie rollback <intervention_id> --run-id <run_id> --approved-by
 - **Workspace support**: indexes multiple repositories and records cross-repo
   contracts, edges, packages, schemas, and generated-client relationships.
 - **Release and CI support**: emits local CI checks, release validation, audit
-  anchors, annotations, and release-gate artifacts.
+  anchors, annotations, workflow linting, feature-workbook drift checks, and
+  release-gate artifacts.
 - **Project registry**: tracks projects where CTX Layer has been installed or
   updated.
 - **Memory optimization and maintenance**: reports database size, retention
@@ -344,7 +399,7 @@ ctxlayer --repo . cie rollback <intervention_id> --run-id <run_id> --approved-by
 Optional:
 
 - Codex or another coding agent that reads `AGENTS.md`
-- An MCP-compatible client for tool integration
+- Claude Code, Cursor, or another MCP-compatible client for tool integration
 - A virtual environment, `pipx`, or another isolated Python environment
 
 ## Install
@@ -352,7 +407,7 @@ Optional:
 Install or upgrade directly from the release wheel:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a7/ctxlayer-0.2.0a7-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a8/ctxlayer-0.2.0a8-py3-none-any.whl"
 ```
 
 Verify:
@@ -364,7 +419,7 @@ ctxlayer --version
 Expected output:
 
 ```text
-ctxlayer 0.2.0a7
+ctxlayer 0.2.0a8
 ```
 
 Avoid creating a new `.venv` inside the target project before setup unless you
@@ -380,7 +435,7 @@ For a new folder that is not already a Git repository:
 ```powershell
 ctxlayer --repo . setup --agents codex,claude,cursor --init-git --install-hooks --configure-mcp --absolute-mcp-repo
 ctxlayer --repo . doctor
-ctxlayer --repo . plan --help
+ctxlayer --repo . workflow recommend --task "initial setup smoke test"
 ```
 
 For an existing Git repository, omit `--init-git`:
@@ -389,31 +444,50 @@ For an existing Git repository, omit `--init-git`:
 ctxlayer --repo . setup --agents codex,claude,cursor --install-hooks --configure-mcp --absolute-mcp-repo
 ctxlayer --repo . doctor
 ctxlayer --repo . plan --help
+ctxlayer --repo . workflow lint
 ```
 
 Setup may create or update:
 
 - `AGENTS.md`
+- `CLAUDE.md`
+- `.cursor/rules/ctxlayer.mdc`
 - `ctxlayer.capabilities.yaml`
 - `.ctxlayer/`
+- `.claude/`
+- `.cursor/mcp.json`
+- `.mcp.json`
 - local Git hooks, when `--install-hooks` is used
 - MCP snippets under `.ctxlayer/mcp/`
 
 Usually commit:
 
 - `AGENTS.md`
+- `CLAUDE.md`, if Claude Code setup is used
+- `.cursor/rules/ctxlayer.mdc`, if Cursor setup is used
 - `ctxlayer.capabilities.yaml`
 
 Usually do not commit:
 
 - `.ctxlayer/`
+- machine-specific MCP snippets or local database files
 
 `.ctxlayer/` contains local workspace state, databases, generated context, and
 machine-specific MCP snippets.
 
 ## Daily Agent Workflow
 
-After setup, the generated `AGENTS.md` asks agents to use this lifecycle:
+After setup, the generated `AGENTS.md` asks agents to use this lifecycle. The
+new workflow-oriented path is:
+
+```powershell
+ctxlayer --repo . workflow recommend --task "<task>"
+ctxlayer --repo . workflow start --task "<task>"
+ctxlayer --repo . workflow next --task-session-id <task_session_id>
+```
+
+The legacy-compatible lower-level path is still available and remains useful
+for manual scripts:
 
 ```powershell
 ctxlayer --repo . task start --task "<task>"
@@ -450,6 +524,16 @@ The outcome summary is important. It becomes durable project memory that future
 tasks can retrieve.
 
 ## Common Commands
+
+Workflow:
+
+```powershell
+ctxlayer --repo . workflow recommend --task "describe the change"
+ctxlayer --repo . workflow start --task "describe the change" --mode write
+ctxlayer --repo . workflow next --task-session-id <task_session_id>
+ctxlayer --repo . workflow lint
+python -m ctxlayer.workflow.export_features --check
+```
 
 Project health:
 
@@ -488,6 +572,7 @@ ctxlayer --repo . learning status
 ctxlayer --repo . learning loop-verify --all
 ctxlayer --repo . cie status
 ctxlayer --repo . cie cycle --task "review recent work"
+ctxlayer --repo . cie score
 ```
 
 Decision support:
@@ -530,8 +615,8 @@ ctxlayer --repo . setup --agents codex,claude,cursor --configure-mcp --absolute-
 ```
 
 The MCP server exposes the same local project intelligence used by the CLI:
-context packs, impact, memory, learning, CIE, decision support, dashboard data,
-and governance flows.
+context packs, impact, memory, learning, workflow routing, CIE, decision
+support, dashboard data, and governance flows.
 
 For local use:
 
@@ -542,15 +627,36 @@ ctxlayer --repo . mcp
 Review generated `.ctxlayer/mcp/` files before copying them into a client
 configuration.
 
+## CI And Release Notes
+
+Recommended CI checks for source repositories using the current workflow system:
+
+```powershell
+ctxlayer --repo . ci check
+ctxlayer --repo . workflow lint
+python -m ctxlayer.workflow.export_features --check
+```
+
+`workflow lint` catches broken catalog/playbook/router contracts. The workbook
+check catches uncommitted drift between the source catalog and
+`features/features.xlsx`.
+
+For package maintainers, build from a clean committed source tree and publish a
+new wheel version for every source change that reaches the release repository.
+The release README should record the wheel name, SHA256, size, release URL,
+build date, and source commit.
+
 ## Upcoming Enhancements
 
-The next planned areas build on the current memory, reliability, and learning
-foundation:
+The next planned areas build on the current workflow, memory, reliability, and
+learning foundation:
 
+- **Workflow policy packs**: make workflow catalogs easier to tune for teams,
+  repositories, and regulated change types.
 - **Organizational agent skill enhancement**: promote proven project-level
   agent skills into organization-level skill libraries, validate them across
-  repositories, track ownership and approval, and route the right skill guidance
-  into context packs for each team or codebase.
+  repositories, track ownership and approval, and route the right skill
+  guidance into context packs for each team or codebase.
 - **Cross-project memory governance**: improve privacy checks, redaction,
   approval workflows, and revalidation before a local lesson or skill becomes
   reusable organization knowledge.
@@ -571,13 +677,13 @@ Back up the workspace database before first use of this preview on an important
 repository:
 
 ```powershell
-Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a7.bak
+Copy-Item .ctxlayer\workspace.db .ctxlayer\workspace.db.pre-0.2.0a8.bak
 ```
 
 Install the current wheel:
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a7/ctxlayer-0.2.0a7-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a8/ctxlayer-0.2.0a8-py3-none-any.whl"
 ```
 
 Then verify:
@@ -586,6 +692,8 @@ Then verify:
 ctxlayer --version
 ctxlayer --repo . doctor
 ctxlayer --repo . index
+ctxlayer --repo . workflow recommend --task "release update smoke test"
+ctxlayer --repo . workflow lint
 ctxlayer --repo . pack --task "release update smoke test"
 ctxlayer --repo . cie status
 ctxlayer --repo . db-stats
@@ -614,11 +722,14 @@ context-pack unpinning counts before anything is deleted.
 
 - CTX Layer is local-first, but generated configuration and hooks should still
   be reviewed before team-wide adoption.
-- Context packs and memory are only as good as the repository state and
-  approvals they are built from.
+- Context packs, workflow gates, and memory are only as good as the repository
+  state and approvals they are built from.
 - CIE adoption is enabled by default in this release, but guarded by local
   configuration, approval metadata, learning-off switches, gates, and rollback
   support.
+- Workflow recommendations are governance aids. They do not replace human
+  judgment for high-risk migrations, security changes, regulated production
+  work, or enterprise rollout decisions.
 - The audit chain is tamper-evident for accidental edits and partial tampering.
   It is not a substitute for access control on the local workspace database.
 - This preview should be exercised on development repositories before use on
