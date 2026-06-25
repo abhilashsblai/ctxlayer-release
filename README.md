@@ -7,6 +7,9 @@
 [![AGENTS.md](https://img.shields.io/badge/AGENTS.md-supported-6f42c1)](#works-with)
 [![Local First](https://img.shields.io/badge/local--first-SQLite-2ea44f)](#why-ctx-layer)
 
+Install CTX Layer in under 2 minutes and give your AI coding agent repository
+memory, governed workflows, impact analysis, and continuous learning.
+
 CTX Layer is a Repository Cognitive Operating System for AI coding agents.
 
 It gives Codex, Claude Code, Cursor, Gemini CLI, MCP clients, and other
@@ -23,7 +26,18 @@ Install -> Index your repository -> Start your first workflow
         -> Get Context Packs -> Catch risky edits -> Record memory
 ```
 
+## 30 Second Tour
+
 ![CTX Layer terminal demo](docs/assets/ctxlayer-demo.gif)
+
+## Choose Your Path
+
+| Time | Do this |
+| --- | --- |
+| 30 seconds | Watch the terminal tour above. |
+| 2 minutes | Run the quick install below. |
+| 5 minutes | Complete the five-step tutorial. |
+| Deep dive | Open the usage guide and release notes. |
 
 ## Install In 2 Minutes
 
@@ -65,6 +79,10 @@ ctxlayer --repo . workflow next --task-session-id <task_session_id>
 
 The coding agent still writes code. CTX Layer gives the repository memory,
 guardrails, workflow state, and verification loop around that agent.
+
+## Product Story
+
+![CTX Layer ecosystem positioning](docs/assets/ctxlayer-ecosystem.svg)
 
 ## Why CTX Layer
 
@@ -156,15 +174,15 @@ auditable, and deterministic by default.
 
 ## Capabilities
 
-| Capability | What it does |
+| Repository Cognition | What it gives the agent |
 | --- | --- |
-| Repository Memory | Remembers decisions, conventions, gotchas, outcomes, and failure lessons. |
-| Context Packs | Gives agents bounded repository context instead of random file search. |
-| Workflow Engine | Turns agent work into a repeatable `start -> next -> verify -> outcome` loop. |
-| Governance | Uses plans, checkpoints, policies, constitutions, hooks, and CI checks. |
-| Impact Analysis | Finds affected files, linked tests, critical paths, and scope risk. |
-| Predictive Cognition | Surfaces surprise, lookahead, simulation, and risk signals before damage. |
-| Continuous Learning | Converts outcomes and repeated mistakes into future repository intelligence. |
+| Repository Memory | Decisions, conventions, gotchas, outcomes, and failure lessons. |
+| Context Packs | Bounded task context instead of random file search. |
+| Workflow Engine | A repeatable `start -> next -> verify -> outcome` loop. |
+| Governance | Plans, checkpoints, policies, constitutions, hooks, and CI checks. |
+| Impact Analysis | Affected files, linked tests, critical paths, and scope risk. |
+| Predictive Cognition | Surprise, lookahead, simulation, and risk signals before damage. |
+| Continuous Learning | Future repository intelligence from outcomes and repeated mistakes. |
 
 ## Works With
 
@@ -181,6 +199,8 @@ auditable, and deterministic by default.
 | npm/npx | Local wrapper for Python engine commands |
 
 ## Performance Snapshot
+
+![CTX Layer performance snapshot](docs/assets/ctxlayer-benchmarks.svg)
 
 | Operation | Earlier preview path | Current preview path |
 | --- | ---: | ---: |
@@ -216,6 +236,15 @@ Highlights:
 CTX Layer is not a replacement for Codex, Claude Code, Cursor, Aider, Continue,
 or LangGraph. It is the repository intelligence and governance layer around AI
 coding agents.
+
+| Need | Typical tool | Where CTX Layer fits |
+| --- | --- | --- |
+| AI coding | Codex, Claude Code, Cursor, Gemini CLI | Gives the agent repository cognition. |
+| Context engineering | Prompts, retrieval, MCP tools | Serves deterministic Context Packs. |
+| Agent workflow | Manual checklists, scripts | Drives governed `workflow start` / `workflow next`. |
+| Repository memory | Chat history, notes | Stores durable local project memory. |
+| Governance | Review, CI, policy files | Adds plans, checkpoints, guardrails, and audit. |
+| MCP server | MCP-compatible clients | Exposes CTX tools to agents. |
 
 ```text
 Agent writes code
