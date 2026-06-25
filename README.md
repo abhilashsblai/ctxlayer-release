@@ -1,114 +1,139 @@
 # CTX Layer
 
-## The Governed Execution Layer for AI Coding Agents
+[![Release](https://img.shields.io/badge/release-0.2.0a8-blue)](https://github.com/abhilashsblai/ctxlayer-release/releases/tag/v0.2.0a8)
+[![Python](https://img.shields.io/badge/python-%3E%3D3.11-blue)](#requirements)
+[![License](https://img.shields.io/badge/license-proprietary-lightgrey)](LICENSE)
+[![MCP](https://img.shields.io/badge/MCP-ready-6f42c1)](#mcp-integration)
+[![AGENTS.md](https://img.shields.io/badge/AGENTS.md-supported-6f42c1)](#daily-agent-workflow)
+[![Local First](https://img.shields.io/badge/local--first-SQLite-2ea44f)](#safety-notes)
 
-CTX Layer transforms AI coding agents from code generators into governed
-software engineering systems.
+CTX Layer is a Repository Cognitive Operating System for AI coding agents.
+
+It gives Codex, Claude Code, Cursor, Gemini CLI, MCP clients, and other
+software engineering agents long-term repository memory, workflow
+orchestration, deterministic governance, impact analysis, predictive cognition,
+and continuous learning.
 
 Copyright (c) 2026 Abhilash Pillai. All rights reserved.
 
 Developed by Abhilash Pillai.
 
-CTX Layer sits between an AI coding agent and your codebase.
-
-It provides context intelligence, workflow orchestration, execution governance,
-impact awareness, organizational intelligence, auditability, and continuous
-improvement.
-
-Without CTX Layer, AI agents generate code.
-
-With CTX Layer, AI agents operate as governed software engineers.
-
-CTX Layer is not a coding agent. It is a governed execution layer that augments
-coding agents such as Codex, Claude Code, Cursor, Aider, and MCP-enabled agent
-systems. The agent writes code; CTX Layer governs how the agent understands,
-plans, validates, learns, and improves.
-
-![CTX Layer governed execution architecture](docs/assets/CTXLayer.png)
-
-## Why This Matters
-
-Traditional agent execution is simple:
-
-```text
-Prompt
-  |
-  v
-Agent
-  |
-  v
-Code
-```
-
-CTX Layer adds the governed execution layer that autonomous coding workflows
-need:
-
-```text
-Prompt
-  |
-  v
-CTX Layer
-  |-- Workflow Orchestration
-  |-- Context Intelligence
-  |-- Project and Organizational Intelligence
-  |-- Execution Governance
-  |-- Impact Analysis
-  |-- Skill Library
-  |-- Audit Trail
-  |-- Continuous Learning
-  `-- Decision Support
-  |
-  v
-Agent
-  |
-  v
-Code
-```
-
-## What Makes It Different
-
-Most AI coding systems stop after execution. CTX Layer continues:
-
-```text
-Agent executes
-  |
-  v
-Outcome captured
-  |
-  v
-Mistake, success, or missing gate analyzed
-  |
-  v
-Root cause and workflow state identified
-  |
-  v
-Intervention, gate, or skill update created
-  |
-  v
-Future behavior improved
-```
-
-This makes CTX Layer a governed coding-agent platform with a built-in workflow
-router and cognitive improvement loop.
-
 ## Why CTX Layer Exists
 
-| Capability | Standard coding agent | CTX Layer |
-| --- | --- | --- |
-| Code generation | Yes | Yes |
-| Context management | Limited | Yes |
-| Workflow routing | No | Yes |
-| Execution governance | Limited | Yes |
-| Impact analysis | Limited | Yes |
-| Project intelligence | Limited | Yes |
-| Audit trail | Rare | Yes |
-| Root-cause analysis | No | Yes |
-| Continuous improvement | No | Yes |
-| Organizational knowledge | No | Yes |
+AI coding agents are powerful, but the raw workflow is still mostly stateless.
+Agents can read files and write patches, yet they do not automatically remember
+project decisions, understand approved business rules, know which tests protect
+a behavior, detect scope drift, or learn from previous tasks.
 
-CTX Layer exists because autonomous coding is not only a generation problem.
-Teams need agents that can operate inside boundaries, explain what happened,
-reuse project knowledge, learn from outcomes, and improve across workstreams.
+CTX Layer gives the repository cognition. It sits beside your codebase, builds a
+local-first model of repository context, and turns an ad hoc agent session into
+a governed engineering loop:
+
+> Before an agent edits this repository, what does it need to know, what must it
+> avoid, what changed, what should be tested, and what should be remembered?
+
+![CTX Layer Architecture](docs/assets/CTXLayer.png)
+
+## Install In Minutes
+
+Install or upgrade from the current release wheel:
+
+```powershell
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a8/ctxlayer-0.2.0a8-py3-none-any.whl"
+ctxlayer --version
+ctxlayer --repo . setup --agents codex,claude,cursor --install-hooks --configure-mcp --absolute-mcp-repo
+ctxlayer --repo . workflow start --task "make a focused change" --path src/app.py
+ctxlayer --repo . workflow next --task-session-id <task_session_id>
+```
+
+## Without CTX Layer Vs With CTX Layer
+
+| Raw AI coding agent workflow | With CTX Layer |
+| --- | --- |
+| Reads whatever files it happens to find | Deterministic Context Packs |
+| Forgets prior decisions and gotchas | Durable Repository Memory |
+| Starts from a prompt, not a workflow | AI Agent Workflow Engine |
+| Changes can drift outside intended scope | Pack-aware Diff Validation |
+| Test choice is mostly manual or guessed | Impact Engine and linked tests |
+| Business rules live in scattered docs | Project Rule Extraction and approval |
+| Risk is discovered late in review | Predictive Cognition and surprise signals |
+| Governance is inconsistent across agents | Capability Policies and checkpoints |
+| Outcomes disappear after the chat ends | Audited task sessions and outcome memory |
+| Repeated mistakes stay repeated | Cognitive Improvement Engine |
+
+## Who This Is For
+
+- Codex users who want repository memory and a repeatable local task loop.
+- Claude Code, Cursor, Gemini CLI, and MCP users who need shared repository
+  context across tools.
+- AI engineering teams building agentic software engineering workflows.
+- Enterprise software teams that need auditability, policy checks, and
+  deterministic governance around AI-assisted changes.
+- Open source maintainers who want coding agents to respect project rules,
+  intended scope, and test impact.
+
+## Problems CTX Layer Solves
+
+- Agent forgets project decisions.
+- Agent reads hundreds of irrelevant files.
+- Agent misses business rules hidden in tests, docs, constants, PRs, or
+  incidents.
+- Agent changes files outside the intended scope.
+- Agent does not know which tests protect a behavior.
+- Agent cannot explain why a pack, plan, checkpoint, or outcome happened.
+- Agent has no durable memory after the session ends.
+- Agent repeats mistakes because outcomes are not converted into future context.
+
+## Quick Tour
+
+1. Bootstrap the repository with agent instructions, MCP config, and local
+   policy files.
+2. Index the codebase into snapshots, symbols, chunks, imports, tests,
+   ownership signals, and local vectors.
+3. Build a task-specific Context Pack for Codex, Claude Code, Cursor, or
+   another MCP-compatible coding agent.
+4. Create a structured plan with intended files, capabilities, risk, and tests.
+5. Execute edits while CTX Layer records checkpoints against the active plan.
+6. Run pack-aware diff validation and impact analysis before declaring success.
+7. Run the recommended tests where practical.
+8. Record the outcome so future agents can recall the decision, gotcha, or
+   failure lesson.
+9. Let the Cognitive Improvement Engine analyze repeated patterns, cognitive
+   debt, prediction quality, and learning decay.
+
+## Works With
+
+| Surface | Status |
+| --- | --- |
+| Codex | CLI, MCP config, hooks, AGENTS.md workflow, child-agent coordination |
+| Claude Code | MCP setup and shared CTX workflow contract |
+| Cursor | MCP setup and shared repository context |
+| MCP | Local stdio server for agent tools |
+| HTTP | Local API and dashboard data |
+| SQLite | Workspace-scoped local-first storage |
+| AGENTS.md | Repository workflow contract for coding agents |
+| npm/npx | Local wrapper for Python engine commands |
+
+## Core Capabilities
+
+- **Repository memory:** Resume interrupted work, recall decisions, preserve
+  conventions, and reuse verified lessons.
+- **Context engineering:** Serve bounded, deterministic Context Packs instead of
+  relying on prompt stuffing or random file search.
+- **AI agent workflow engine:** Drive `workflow start` and `workflow next` from
+  durable evidence rather than from agent memory.
+- **Impact analysis:** Identify affected files, linked tests, critical paths,
+  and pack-aware scope risk.
+- **Goal validation and governance:** Check plans, capabilities, checkpoints,
+  constitutions, hooks, and CI policy surfaces.
+- **Project rule extraction:** Extract candidate business rules from code,
+  tests, docs, incidents, PRs, and runtime evidence, then require approval
+  before serving them as authoritative context.
+- **Predictive cognition:** Surface surprise scoring, lookahead, consequence
+  simulation, interoception, and cross-repo transfer as conservative advisory
+  signals.
+- **Continuous learning:** Convert task outcomes, failures, and repeated
+  patterns into safer future repository behavior.
 
 ## Current Release
 
