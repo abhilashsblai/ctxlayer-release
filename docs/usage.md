@@ -18,14 +18,14 @@ Optional:
 ## Install
 
 ```powershell
-python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a8/ctxlayer-0.2.0a8-py3-none-any.whl"
+python -m pip install --upgrade "https://github.com/abhilashsblai/ctxlayer-release/releases/download/v0.2.0a11/ctxlayer-0.2.0a11-py3-none-any.whl"
 ctxlayer --version
 ```
 
 Expected output:
 
 ```text
-ctxlayer 0.2.0a8
+ctxlayer 0.2.0a11
 ```
 
 Avoid creating a new `.venv` inside the target project before setup unless you
@@ -148,6 +148,9 @@ ctxlayer --repo . doctor
 ctxlayer --repo . index
 ctxlayer --repo . gc
 ctxlayer --repo . db-stats
+ctxlayer --repo . storage-report
+ctxlayer --repo . retention show
+ctxlayer --repo . retention set --preset balanced
 ctxlayer --repo . gc --deep --dry-run
 ctxlayer --repo . gc --deep
 ctxlayer --repo . maintenance history
