@@ -2,6 +2,11 @@
 
 > Persistent project intelligence for AI engineering.
 
+> **Legacy release bridge:** this `ctxlayer-release` repository remains online
+> so existing CTX Layer clients can update safely. New installations and
+> PersistMind-native releases use
+> [abhilashsblai/persistmind-release](https://github.com/abhilashsblai/persistmind-release).
+
 PersistMind gives AI coding agents durable repository memory, context packs,
 impact analysis, governed workflows, hooks, skills, MCP tools, and a verified
 seven-database local storage topology.
